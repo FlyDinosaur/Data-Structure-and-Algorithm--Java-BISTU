@@ -96,4 +96,69 @@ public class DoublyCircularLinkedList<T> {
         }
         throw new UnsupportedOperationException("仅支持数值类型");
     }
+
+    public T remove(int index) {
+        if (index < 0 || index >= size) {
+            return null;
+        }
+        Node<T> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        if (size == 1) {
+            head = null;
+        } else {
+            current.prev.next = current.next;
+            current.next.prev = current.prev;
+            if (current == head) {
+                head = current.next;
+            }
+        }
+        size--;
+        return current.value;
+    }
+
+    public void set(int index, T value) {
+        if (index < 0 || index >= size) {
+            return;
+        }
+        Node<T> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        current.value = value;
+    }
+
+    @Override
+    public String toString() {
+        if (isEmpty()) {
+            return "DoublyCircularLinkedList:[]";
+        }
+        String result = "DoublyCircularLinkedList:[";
+        Node<T> current = head;
+        do {
+            result += current.value;
+            if (current.next != head) {
+                result += ", ";
+            }
+            current = current.next;
+        } while (current != head);
+        return result + "]";
+
+
+    }
+
+
+    public static void main(String[] args) {
+        DoublyCircularLinkedList<Integer> list = new DoublyCircularLinkedList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        System.out.println(list);
+        list.remove(1);
+        System.out.println(list);
+        list.set(0, 4);
+        System.out.println(list);
+
+    }
 }
